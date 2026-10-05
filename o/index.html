@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Opening TimeShift...</title>
+<style>
+  body {
+    font-family: -apple-system, Roboto, Helvetica, Arial, sans-serif;
+    background: #0f1115;
+    color: #f2f2f2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    text-align: center;
+    padding: 24px;
+    box-sizing: border-box;
+  }
+  h1 { font-size: 1.25rem; margin-bottom: 8px; }
+  p { color: #9aa0a6; margin-top: 0; }
+  a.button {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 12px 24px;
+    background: #4f8cff;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+  }
+</style>
+</head>
+<body>
+  <h1>Opening TimeShift&hellip;</h1>
+  <p>If the app doesn&rsquo;t open automatically, tap the button below.</p>
+  <a class="button" id="open-link" href="#">Open in TimeShift</a>
+
+  <script>
+    (function () {
+      var params = new URLSearchParams(window.location.search);
+      var id = params.get('id');
+      if (!id) {
+        document.querySelector('h1').textContent = 'Missing game link';
+        document.querySelector('p').textContent = 'This link is missing its game ID.';
+        document.getElementById('open-link').style.display = 'none';
+        return;
+      }
+      var deepLink = 'timeshift://open-game/' + encodeURIComponent(id);
+      document.getElementById('open-link').setAttribute('href', deepLink);
+      // Best-effort automatic redirect; the visible button above is the
+      // reliable fallback for browsers that block programmatic scheme
+      // navigation (notably in-app browsers inside messaging apps).
+      window.location.href = deepLink;
+    })();
+  </script>
+</body>
+</html>
